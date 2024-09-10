@@ -1,0 +1,79 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="3" author="test">
+        <preConditions onFail="MARK_RAN">
+            <rowCount tableName="wallet" schemaName="test" expectedRows="0"/>
+        </preConditions>
+
+        <delete tableName="wallet" schemaName="test">
+            <where>id IS NOT NULL</where>
+        </delete>
+        <insert tableName="wallet" schemaName="test">
+            <column name="id" value="1b9b4d79-bbed-4455-827c-f03d55184022"/>
+            <column name="balance" value="5000"/>
+            <column name="version" value="0"/>
+        </insert>
+        <insert tableName="wallet" schemaName="test">
+            <column name="id" value="2cf6e075-9f44-4485-9616-51f326e22104"/>
+            <column name="balance" value="3000"/>
+            <column name="version" value="0"/>
+        </insert>
+        <insert tableName="wallet" schemaName="test">
+            <column name="id" value="492fcd74-2be7-4c63-9b1d-15ba783c0161"/>
+            <column name="balance" value="7000"/>
+            <column name="version" value="0"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="4" author="test">
+        <preConditions onFail="MARK_RAN">
+            <rowCount tableName="wallet_operation" schemaName="test" expectedRows="0"/>
+        </preConditions>
+        <delete tableName="wallet_operation" schemaName="test">
+            <where>id IS NOT NULL</where>
+        </delete>
+
+        <insert tableName="wallet_operation" schemaName="test">
+            <column name="operation_type" value="DEPOSIT"/>
+            <column name="amount" value="1000"/>
+            <column name="created_at" valueDate="2024-09-05 12:00:00"/>
+            <column name="wallet_id" value="1b9b4d79-bbed-4455-827c-f03d55184022"/>
+        </insert>
+        <insert tableName="wallet_operation" schemaName="test">
+            <column name="operation_type" value="WITHDRAW"/>
+            <column name="amount" value="500"/>
+            <column name="created_at" valueDate="2024-09-05 12:30:00"/>
+            <column name="wallet_id" value="1b9b4d79-bbed-4455-827c-f03d55184022"/>
+        </insert>
+        <insert tableName="wallet_operation" schemaName="test">
+            <column name="operation_type" value="DEPOSIT"/>
+            <column name="amount" value="2000"/>
+            <column name="created_at" valueDate="2024-09-05 13:00:00"/>
+            <column name="wallet_id" value="2cf6e075-9f44-4485-9616-51f326e22104"/>
+        </insert>
+        <insert tableName="wallet_operation" schemaName="test">
+            <column name="operation_type" value="WITHDRAW"/>
+            <column name="amount" value="1500"/>
+            <column name="created_at" valueDate="2024-09-05 13:30:00"/>
+            <column name="wallet_id" value="2cf6e075-9f44-4485-9616-51f326e22104"/>
+        </insert>
+        <insert tableName="wallet_operation" schemaName="test">
+            <column name="operation_type" value="DEPOSIT"/>
+            <column name="amount" value="3000"/>
+            <column name="created_at" valueDate="2024-09-05 14:00:00"/>
+            <column name="wallet_id" value="492fcd74-2be7-4c63-9b1d-15ba783c0161"/>
+        </insert>
+        <insert tableName="wallet_operation" schemaName="test">
+            <column name="operation_type" value="WITHDRAW"/>
+            <column name="amount" value="1000"/>
+            <column name="created_at" valueDate="2024-09-05 14:30:00"/>
+            <column name="wallet_id" value="492fcd74-2be7-4c63-9b1d-15ba783c0161"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

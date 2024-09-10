@@ -1,0 +1,57 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+
+    <changeSet id="1" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="test" tableName="wallet"/>
+            </not>
+        </preConditions>
+        <createTable tableName="wallet" schemaName="test">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="balance" type="BIGINT"/>
+            <column name="version" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists schemaName="test" tableName="wallet_operation"/>
+            </not>
+        </preConditions>
+        <createTable tableName="wallet_operation" schemaName="test">
+            <column name="id" type="SERIAL">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="operation_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="wallet_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="wallet_operation"
+                                 baseColumnNames="wallet_id"
+                                 referencedTableName="wallet"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_wallet"
+                                 baseTableSchemaName="test"
+                                 referencedTableSchemaName="test"/>
+    </changeSet>
+</databaseChangeLog>

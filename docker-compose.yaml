@@ -1,0 +1,29 @@
+version: '3'
+
+volumes:
+  pg_test:
+
+services:
+  test-db:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+      POSTGRES_DB: postgres
+    volumes:
+      - pg_test:/var/lib/postgresql/data
+      - ./src/main/resources/preliquibase/postgresql.sql:/docker-entrypoint-initdb.d/create_schema.sql
+    ports:
+      - 127.0.0.1:5432:5432
+  app:
+    restart: always
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - test-db
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:postgresql://test-db:5432/postgres'
+      JAVA_OPTS: '-Xmx512m'
